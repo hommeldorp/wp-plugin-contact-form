@@ -1,7 +1,7 @@
 {
 	"name": "contact-slide-in-trigger",
 	"version": "0.1.0",
-	"description": "Example block scaffolded with Create Block tool.",
+	"description": "A block that opens a contact form panel when clicked.",
 	"author": "The WordPress Contributors",
 	"license": "GPL-2.0-or-later",
 	"main": "build/index.js",
@@ -12,7 +12,9 @@
 		"lint:js": "wp-scripts lint-js",
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip",
-		"start": "wp-scripts start --webpack-copy-php --blocks-manifest"
+		"start": "wp-scripts start --webpack-copy-php --blocks-manifest",
+		"make-pot": "wp i18n make-pot . languages/contact-slide-in-trigger.pot --exclude=node_modules,vendor",
+		"make-json": "wp i18n make-json languages --no-purge --extensions=js,.min.js,jsx"
 	},
 	"dependencies": {
 		"@wordpress/block-editor": "latest",
@@ -20,6 +22,8 @@
 		"@wordpress/i18n": "latest"
 	},
 	"devDependencies": {
+		"@wordpress/components": "^37.0.0",
+		"@wordpress/icons": "^15.2.0",
 		"@wordpress/scripts": "^33.0.0"
 	}
 }

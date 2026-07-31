@@ -6,7 +6,66 @@
  */
 
 .wp-block-create-block-contact-slide-in-trigger {
-	background-color: #21759b;
-	color: #fff;
-	padding: 2px;
+	cursor: pointer;
+	border: 0;
+}
+
+$width: 350px;
+
+.contact-slide-in-panel {
+	cursor: default;
+	position: fixed;
+	top: 0;
+	right: 0;
+	z-index: 9999;
+	height: 100vh;
+	background-color: var(--wp--preset--color--accent-5);
+	color: var(--wp--preset--color--contrast);
+	box-sizing: border-box;
+	width: $width;
+	margin-right: -$width;
+	transition: margin-right 0.3s ease-in-out;
+	box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+	padding: 2rem 1rem;
+	text-align: left;
+
+	&.open {
+		margin-right: 0;
+	}
+
+	header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	fieldset {
+		border: 0;
+		margin: 0;
+		padding: 0;
+	}
+}
+
+.close-button {
+	padding: .5em !important;
+	line-height: .8 !important;
+}
+
+.form-field {
+	label {
+		display: block;
+	}
+
+	input, textarea {
+		width: 100%;
+		padding: 1rem .5rem;
+		margin-bottom: 1rem;
+		box-sizing: border-box;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+	}
+
+	:invalid:not(:placeholder-shown):not(:focus) {
+		border: 1px red solid;
+	}
 }

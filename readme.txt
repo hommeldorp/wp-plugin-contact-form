@@ -41,15 +41,22 @@ Answer to foo bar dilemma.
 the /assets directory or the directory that contains the stable readme.txt (tags or trunk). Screenshots in the /assets
 directory take precedence. For example, `/assets/screenshot-1.png` would win over `/tags/4.3/screenshot-1.png`
 (or jpg, jpeg, gif).
-2. This is the second screen shot
+2. This is the second screenshot
 
 == Changelog ==
 
 = 0.1.0 =
 * Release
 
-== Arbitrary section ==
+== Translations ==
 
-You may provide arbitrary sections, in the same format as the ones above. This may be of use for extremely complicated
-plugins where more information needs to be conveyed that doesn't fit into the categories of "description" or
-"installation." Arbitrary sections will be shown below the built-in sections outlined above.
+Steps to generate/update translations:
+
+1.(when new view keys) run `npm run build`, to generate a compiled view.js file with the new keys.
+2. Generate the translation master key file/template with `npm run make-pot`
+3. Update the existing language files with `wp i18n update-po ./languages`
+4. For JS files, update the JSON translation files with `npm run make-json` (the files for build/view.js matter, the src files do not)
+5. For PHP files, run `wp i18n make-mo`
+
+Further details here: https://developer.wordpress.org/cli/commands/i18n/
+And here: https://developer.wordpress.org/apis/internationalization/#internationalizing-javascript

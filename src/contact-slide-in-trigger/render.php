@@ -9,7 +9,17 @@
  *
  * @see https://github.com/WordPress/gutenberg/blob/trunk/docs/reference-guides/block-api/block-metadata.md#render
  */
+
+
+$buttonText = ! empty( $attributes['buttonText'] )
+	? $attributes['buttonText']
+	: esc_html__( 'Contact Us', 'contact-slide-in-trigger' );
+
+$dataAttributes = <<<JSON
+{
+  "buttonText": "$buttonText"
+}
+JSON;
+
 ?>
-<p <?php echo get_block_wrapper_attributes(); ?>>
-	<?php esc_html_e( 'Contact Slide In Trigger – hello from a dynamic block!', 'contact-slide-in-trigger' ); ?>
-</p>
+<button <?php echo get_block_wrapper_attributes(); ?> data-attributes="<?php echo esc_attr( $dataAttributes ); ?>"></button>

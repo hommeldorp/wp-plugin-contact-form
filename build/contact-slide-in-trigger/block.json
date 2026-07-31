@@ -7,14 +7,32 @@
   "category": "widgets",
   "description": "Link that will display contact form when clicked.",
   "example": {},
+  "attributes": {
+    "buttonText": {
+      "type": "string"
+    },
+    "contactEmail": {
+      "type": "string"
+    }
+  },
   "supports": {
     "color": {
-      "background": false,
+      "background": true,
       "text": true
+    },
+    "spacing": {
+      "margin": true,
+      "padding": true
+    },
+    "__experimentalBorder": {
+      "width": true,
+      "radius": true
     },
     "html": false,
     "typography": {
-      "fontSize": true
+      "fontSize": true,
+      "textAlign": true,
+      "appearance": true
     }
   },
   "textdomain": "contact-slide-in-trigger",
@@ -22,5 +40,5 @@
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css",
   "render": "file:./render.php",
-  "viewScript": "file:./view.js"
+  "viewScript": "file:./view/index.js"
 }

@@ -12,14 +12,32 @@ return array(
 		'example' => array(
 			
 		),
+		'attributes' => array(
+			'buttonText' => array(
+				'type' => 'string'
+			),
+			'contactEmail' => array(
+				'type' => 'string'
+			)
+		),
 		'supports' => array(
 			'color' => array(
-				'background' => false,
+				'background' => true,
 				'text' => true
+			),
+			'spacing' => array(
+				'margin' => true,
+				'padding' => true
+			),
+			'__experimentalBorder' => array(
+				'width' => true,
+				'radius' => true
 			),
 			'html' => false,
 			'typography' => array(
-				'fontSize' => true
+				'fontSize' => true,
+				'textAlign' => true,
+				'appearance' => true
 			)
 		),
 		'textdomain' => 'contact-slide-in-trigger',
@@ -27,6 +45,6 @@ return array(
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
 		'render' => 'file:./render.php',
-		'viewScript' => 'file:./view.js'
+		'viewScript' => 'file:./view/index.js'
 	)
 );

@@ -11,7 +11,8 @@ import { __ } from '@wordpress/i18n';
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import { useBlockProps } from '@wordpress/block-editor';
+import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
+import {PanelBody, TextControl} from "@wordpress/components";
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -21,6 +22,9 @@ import { useBlockProps } from '@wordpress/block-editor';
  */
 import './editor.scss';
 
+const i18nDomain = 'contact-slide-in-trigger';
+const DEFAULT_BUTTON_TEXT = __('Contact Us', 'contact-slide-in-trigger');
+
 /**
  * The edit function describes the structure of your block in the context of the
  * editor. This represents what the editor will render when the block is used.
@@ -29,13 +33,29 @@ import './editor.scss';
  *
  * @return {Element} Element to render.
  */
-export default function Edit() {
+export default function Edit({ attributes, setAttributes }) {
+	const { buttonText } = attributes;
+
 	return (
-		<p { ...useBlockProps() }>
-			{ __(
-				'Contact Slide In Trigger – hello from the editor! test',
-				'contact-slide-in-trigger'
-			) }
-		</p>
+		<>
+			<InspectorControls>
+				<PanelBody title={__('Settings', i18nDomain)}>
+					<TextControl
+						label={__('Button Text', i18nDomain)}
+						placeholder={DEFAULT_BUTTON_TEXT}
+						value={buttonText || ''}
+						onChange={(value) => setAttributes({ buttonText: value })}
+					/>
+					{/*<TextControl*/}
+					{/*	label={__('E-mail Address', i18nDomain)}*/}
+					{/*	placeholder="info@example.com"*/}
+					{/*	value={contactEmail || ''}*/}
+					{/*	onChange={(value) => setAttributes({ contactEmail: value })}*/}
+					{/*/>*/}
+				</PanelBody>
+			</InspectorControls>
+
+			<button { ...useBlockProps() }>{ buttonText || DEFAULT_BUTTON_TEXT }</button>
+		</>
 	);
 }
