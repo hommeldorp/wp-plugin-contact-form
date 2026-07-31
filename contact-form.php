@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       Contact Slide In Trigger
+ * Plugin Name:       Contact Form
  * Description:       A block that opens a contact form panel when clicked.
  * Version:           0.1.0
  * Requires at least: 6.8
@@ -8,7 +8,7 @@
  * Author:            Greg Rozmarynowycz
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       contact-slide-in-trigger
+ * Text Domain:       contact-form
  * Domain Path:       /languages
  *
  * @package CreateBlock
@@ -25,23 +25,23 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @see https://make.wordpress.org/core/2025/03/13/more-efficient-block-type-registration-in-6-8/
  * @see https://make.wordpress.org/core/2024/10/17/new-block-type-registration-apis-to-improve-performance-in-wordpress-6-7/
  */
-function create_block_contact_slide_in_trigger_block_init() {
+function create_block_contact_form_block_init() {
 	wp_register_block_types_from_metadata_collection( __DIR__ . '/build', __DIR__ . '/build/blocks-manifest.php' );
 }
-add_action( 'init', 'create_block_contact_slide_in_trigger_block_init' );
+add_action( 'init', 'create_block_contact_form_block_init' );
 
-function contact_slide_in_trigger_load_textdomain() {
+function contact_form_load_textdomain() {
 	load_plugin_textdomain(
-		'contact-slide-in-trigger',
+		'contact-form',
 		false,
 		dirname( plugin_basename( __FILE__ ) ) . '/languages'
 	);
 }
-add_action( 'init', 'contact_slide_in_trigger_load_textdomain' );
+add_action( 'init', 'contact_form_load_textdomain' );
 
 wp_register_script(
 	'edit-script',
-	plugins_url( 'src/contact-slide-in-trigger/edit.js', __FILE__ ),
+	plugins_url( 'src/contact-form/edit.js', __FILE__ ),
 	array( 'wp-i18n' ),
 	'0.0.1'
 );
@@ -50,29 +50,29 @@ wp_register_script(
 // into the UI
 wp_register_script(
 	'view-script',
-	plugins_url( 'build/contact-slide-in-trigger/view/index.js', __FILE__ ),
+	plugins_url( 'build/contact-form/view/index.js', __FILE__ ),
 	array( 'wp-i18n' ),
 	'0.0.1'
 );
 
-add_action( 'wp_enqueue_scripts', 'contact_slide_in_trigger_load_view_textdomain', 100 );
+add_action( 'wp_enqueue_scripts', 'contact_form_load_view_textdomain', 100 );
 
-function contact_slide_in_trigger_load_view_textdomain() {
+function contact_form_load_view_textdomain() {
 	wp_set_script_translations(
 		'view-script',
-		'contact-slide-in-trigger',
+		'contact-form',
 		plugin_dir_path( __FILE__ ) . 'languages'
 	);
 }
 
 // Contact Form REST API
 
-add_action( 'rest_api_init', 'create_block_contact_slide_in_trigger_register_routes' );
+add_action( 'rest_api_init', 'create_block_contact_form_register_routes' );
 
-function create_block_contact_slide_in_trigger_register_routes() {
+function create_block_contact_form_register_routes() {
 	register_rest_route( 'contact-slide-in/v1', '/message', [
 		'methods' => 'POST',
-		'callback' => 'create_block_contact_slide_in_trigger_post_message',
+		'callback' => 'create_block_contact_form_post_message',
 		'permission_callback' => '__return_true',
 		'args' => [
 			'name' => [
@@ -101,7 +101,7 @@ function create_block_contact_slide_in_trigger_register_routes() {
 	]);
 }
 
-function create_block_contact_slide_in_trigger_post_message(WP_REST_Request $request) {
+function create_block_contact_form_post_message(WP_REST_Request $request) {
 	$recipient = ""; // TODO get this from the database
 	$from = "From: " . $request->get_param('name') . " <" . $request->get_param('email') . ">";
 	$headers = array( 'Content-Type: text/plain; charset=UTF-8', $from );

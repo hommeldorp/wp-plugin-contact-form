@@ -22,8 +22,8 @@ import {PanelBody, TextControl} from "@wordpress/components";
  */
 import './editor.scss';
 
-const i18nDomain = 'contact-slide-in-trigger';
-const DEFAULT_BUTTON_TEXT = __('Contact Us', 'contact-slide-in-trigger');
+const i18nDomain = 'contact-form';
+const DEFAULT_BUTTON_TEXT = __('Contact Us', 'contact-form');
 
 /**
  * The edit function describes the structure of your block in the context of the

@@ -39,33 +39,33 @@ function FormPanel({ isOpen, closePanel }) {
 	return (
 		<div className={`contact-slide-in-panel ${isOpen ? 'open' : ''}`} aria-hidden={!isOpen}>
 			<header>
-				<h3>{ __('Contact us', 'contact-slide-in-trigger') }</h3>
-				<Button icon={ close } className="wp-element-button wp-block-button__link close-button" onClick={closePanel} title={__('Close', 'contact-slide-in-trigger')}></Button>
+				<h3>{ __('Contact us', 'contact-form') }</h3>
+				<Button icon={ close } className="wp-element-button wp-block-button__link close-button" onClick={closePanel} title={__('Close', 'contact-form')}></Button>
 			</header>
 
 			<form onSubmit={ sendMessage } ref={formRef}>
 				<fieldset disabled={formState.isPending}>
 					<div className="form-field">
-						<label htmlFor="contact-name">{ __('Name', 'contact-slide-in-trigger') }</label>
+						<label htmlFor="contact-name">{ __('Name', 'contact-form') }</label>
 						<input name="name" required={true} minLength={2} placeholder=" " type="text" id="contact-name" />
 					</div>
 
 					<div className="form-field">
-						<label htmlFor="contact-email">{ __('E-mail', 'contact-slide-in-trigger') }</label>
+						<label htmlFor="contact-email">{ __('E-mail', 'contact-form') }</label>
 						<input name="email" type="email" id="contact-email" />
 					</div>
 
 					<div className="form-field">
-						<label htmlFor="contact-message">{ __('Message', 'contact-slide-in-trigger') }</label>
+						<label htmlFor="contact-message">{ __('Message', 'contact-form') }</label>
 						<textarea name="message" required={true} minLength={20} placeholder=" " id="contact-message" rows="10"></textarea>
 					</div>
 
-					{ formState.isSuccess && <p className="success-message">{ __('Message sent successfully', 'contact-slide-in-trigger') }</p> }
+					{ formState.isSuccess && <p className="success-message">{ __('Message sent successfully', 'contact-form') }</p> }
 					{ formState.error && <p className="has-color-dark-red">{ formState.error }</p> }
 
 					<button className="wp-element-button wp-block-button__link has-medium-font-size"
 					        type="submit"
-					>{ formState.isPending ? __('Sending...', 'contact-slide-in-trigger') :  __('Send', 'contact-slide-in-trigger') }</button>
+					>{ formState.isPending ? __('Sending...', 'contact-form') :  __('Send', 'contact-form') }</button>
 				</fieldset>
 			</form>
 		</div>

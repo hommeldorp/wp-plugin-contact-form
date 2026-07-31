@@ -13,7 +13,7 @@
 
 $buttonText = ! empty( $attributes['buttonText'] )
 	? $attributes['buttonText']
-	: esc_html__( 'Contact Us', 'contact-slide-in-trigger' );
+	: esc_html__( 'Contact Us', 'contact-form' );
 
 $dataAttributes = <<<JSON
 {

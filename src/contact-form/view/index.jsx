@@ -5,7 +5,7 @@ import { createRoot } from '@wordpress/element';
 
 import ContactSlideIn from './ContactSlideIn.jsx'
 
-const BLOCK_SELECTOR = '.wp-block-create-block-contact-slide-in-trigger';
+const BLOCK_SELECTOR = '.wp-block-create-block-contact-form';
 
 domReady(() => {
 	const blockMounts = document.querySelectorAll(BLOCK_SELECTOR);

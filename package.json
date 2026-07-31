@@ -1,5 +1,5 @@
 {
-	"name": "contact-slide-in-trigger",
+	"name": "contact-form",
 	"version": "0.1.0",
 	"description": "A block that opens a contact form panel when clicked.",
 	"author": "The WordPress Contributors",
@@ -13,7 +13,7 @@
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip",
 		"start": "wp-scripts start --webpack-copy-php --blocks-manifest",
-		"make-pot": "wp i18n make-pot . languages/contact-slide-in-trigger.pot --exclude=node_modules,vendor",
+		"make-pot": "wp i18n make-pot . languages/contact-form.pot --exclude=node_modules,vendor",
 		"make-json": "wp i18n make-json languages --no-purge --extensions=js,.min.js,jsx"
 	},
 	"dependencies": {

@@ -1,12 +1,12 @@
 <?php
 // This file is generated. Do not modify it manually.
 return array(
-	'contact-slide-in-trigger' => array(
+	'contact-form' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'create-block/contact-slide-in-trigger',
+		'name' => 'create-block/contact-form',
 		'version' => '0.1.0',
-		'title' => 'Contact Slide In Trigger',
+		'title' => 'Contact Form Link',
 		'category' => 'widgets',
 		'description' => 'Link that will display contact form when clicked.',
 		'example' => array(
@@ -40,7 +40,7 @@ return array(
 				'appearance' => true
 			)
 		),
-		'textdomain' => 'contact-slide-in-trigger',
+		'textdomain' => 'contact-form',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
