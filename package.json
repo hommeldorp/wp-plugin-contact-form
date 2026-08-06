@@ -19,7 +19,8 @@
 	"dependencies": {
 		"@wordpress/block-editor": "latest",
 		"@wordpress/blocks": "latest",
-		"@wordpress/i18n": "latest"
+		"@wordpress/i18n": "latest",
+		"cap-widget": "^0.1.56"
 	},
 	"devDependencies": {
 		"@wordpress/components": "^37.0.0",

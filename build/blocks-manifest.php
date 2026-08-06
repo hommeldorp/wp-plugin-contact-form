@@ -4,7 +4,7 @@ return array(
 	'contact-form' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'create-block/contact-form',
+		'name' => 'hommeldorp/contact-form',
 		'version' => '0.1.0',
 		'title' => 'Contact Form Link',
 		'category' => 'widgets',

@@ -1,7 +1,8 @@
 import {__} from "@wordpress/i18n";
-import {Button} from "@wordpress/components";
-import {close} from "@wordpress/icons";
+import {Button, Icon} from "@wordpress/components";
+import {close, error} from "@wordpress/icons";
 import {useRef, useState} from "@wordpress/element";
+import 'cap-widget';
 
 function FormPanel({ isOpen, closePanel }) {
 	const formRef = useRef(null);
@@ -60,8 +61,13 @@ function FormPanel({ isOpen, closePanel }) {
 						<textarea name="message" required={true} minLength={20} placeholder=" " id="contact-message" rows="10"></textarea>
 					</div>
 
+					<cap-widget
+						required={true}
+						data-cap-api-endpoint="https://cap.hommeldorp.nl/84e2a6d091/"
+					/>
+
 					{ formState.isSuccess && <p className="success-message">{ __('Message sent successfully', 'contact-form') }</p> }
-					{ formState.error && <p className="has-color-dark-red">{ formState.error }</p> }
+					{ formState.error && <p className="has-vivid-red-color" style={{ display: 'flex' }}><Icon icon={ error }/> { formState.error }</p> }
 
 					<button className="wp-element-button wp-block-button__link has-medium-font-size"
 					        type="submit"
