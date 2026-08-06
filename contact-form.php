@@ -121,7 +121,7 @@ function get_admin_email_from_db () {
 
 function hommeldorp_contact_form_post_message(WP_REST_Request $request) {
 
-	$data = json_decode(file_get_contents("https://cap.hommeldorp.nl/siteverify",
+	$data = json_decode(file_get_contents("https://cap.hommeldorp.nl/84e2a6d091/siteverify",
 		false, stream_context_create([
 			"http" => [
 				"method" => "POST",
