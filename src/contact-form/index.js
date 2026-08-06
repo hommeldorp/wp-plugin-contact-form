@@ -43,3 +43,23 @@ registerBlockType( metadata.name, {
 	 */
 	edit: Edit,
 } );
+
+// by default the contact form block will not be allowed in the navigation block
+const addToNavigation = ( blockSettings, blockName ) => {
+	if ( blockName === 'core/navigation' ) {
+		return {
+			...blockSettings,
+			allowedBlocks: [
+				...( blockSettings.allowedBlocks ?? [] ),
+				'hommeldorp/contact-form',
+			],
+		};
+	}
+	return blockSettings;
+};
+
+wp.hooks.addFilter(
+	'blocks.registerBlockType',
+	'hommeldorp-contact-form-add-block-to-navigation',
+	addToNavigation
+);

@@ -6,6 +6,7 @@ import 'cap-widget';
 
 function FormPanel({ isOpen, closePanel }) {
 	const formRef = useRef(null);
+	const capRef = useRef(null);
 	const [formState, setFormState] = useState({
 		isPending: false,
 		isSuccess: false,
@@ -19,6 +20,7 @@ function FormPanel({ isOpen, closePanel }) {
 		const formData = new FormData(form);
 
 		setFormState({ ...formState, error: '', isSuccess: false, isPending: true });
+		capRef.current.reset();
 
 		const endpoint = '/wp-json/contact-slide-in/v1/message';
 		const result = await fetch(endpoint, {
@@ -62,6 +64,7 @@ function FormPanel({ isOpen, closePanel }) {
 					</div>
 
 					<cap-widget
+						ref={capRef}
 						required={true}
 						data-cap-api-endpoint="https://cap.hommeldorp.nl/84e2a6d091/"
 					/>

@@ -16,6 +16,7 @@ $width: 350px;
 	color: var(--wp--preset--color--contrast);
 	box-sizing: border-box;
 	width: $width;
+	max-width: 100vw;
 	margin-right: -$width;
 	transition: margin-right 0.3s ease-in-out;
 	box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
@@ -44,6 +45,11 @@ $width: 350px;
 	line-height: .8 !important;
 }
 
+form .form-field:has(*[required]) label::after {
+	content: ' *';
+	color: red;
+}
+
 .form-field {
 	label {
 		display: block;
@@ -62,3 +68,8 @@ $width: 350px;
 		border: 1px red solid;
 	}
 }
+
+cap-widget {
+	margin-bottom: .5em;
+}
+
