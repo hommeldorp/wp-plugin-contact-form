@@ -120,17 +120,18 @@ function get_admin_email_from_db () {
 }
 
 function hommeldorp_contact_form_post_message(WP_REST_Request $request) {
-	$data = json_decode(file_get_contents("https://cap.hommeldorp.nl/84e2a6d091/siteverify",
+
+	$data = json_decode(file_get_contents("https://cap.hommeldorp.nl/siteverify",
 		false, stream_context_create([
 			"http" => [
 				"method" => "POST",
 				"header" => "Content-Type: application/json",
-				"content" => json_encode(["secret"=>getenv("CAP_KEY_SECRET"),"response"=>$request->get_param('cap-token')])
+				"content" => json_encode(["secret"=>getenv("CAP_SECRET_KEY"),"response"=>$request->get_param('cap-token')])
 			]
 		])
 	), true);
 
-	if (!$data['success']) {
+	if (!$data || !$data['success']) {
 		return new WP_Error( 'invalid_captcha', 'Invalid captcha.', array( 'status' => 400 ));
 	}
 
@@ -141,12 +142,18 @@ function hommeldorp_contact_form_post_message(WP_REST_Request $request) {
 		return new WP_Error( 'email_not_sent', 'Email not sent.', array( 'status' => 500 ));
 	}
 
-	error_log("Recipient: ".print_r($recipient, TRUE));
-	$from = "From: " . $request->get_param('name');
-	// if the sender didn't provide an email, use the admin email
-	$from .= $request->get_param('email') != '' ? " <" . $request->get_param('email') . ">" : "<" . $recipient . ">";
+	// at least for transip, it seems this *must* be a hommeldorp.nl address
+	$from = "From: " . $request->get_param('name') . "<" . $recipient . ">";
 
-	$headers = array( 'Content-Type: text/plain; charset=UTF-8', $from );
+	// if the sender didn't provide an email, use the admin email
+	$replyTo = $request->get_param('email') != ''
+		? "Reply-To: " . $request->get_param("name") . " <" . $request->get_param('email') . ">"
+		: "";
+
+	error_log(print_r($from, TRUE));
+	error_log(print_r($recipient, TRUE));
+
+	$headers = array( 'Content-Type: text/plain; charset=UTF-8', $from, $replyTo);
 
 	// errors form this function trigger the wp_mail_failed action
 	$result = wp_mail( $recipient, 'Contact Form Submission', $request->get_param('message'), $headers );
