@@ -73,3 +73,7 @@ cap-widget {
 	margin-bottom: .5em;
 }
 
+.success-message, .error-message {
+	font-weight: bold;
+	display: flex;
+}

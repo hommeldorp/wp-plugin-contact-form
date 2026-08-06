@@ -150,9 +150,6 @@ function hommeldorp_contact_form_post_message(WP_REST_Request $request) {
 		? "Reply-To: " . $request->get_param("name") . " <" . $request->get_param('email') . ">"
 		: "";
 
-	error_log(print_r($from, TRUE));
-	error_log(print_r($recipient, TRUE));
-
 	$headers = array( 'Content-Type: text/plain; charset=UTF-8', $from, $replyTo);
 
 	// errors form this function trigger the wp_mail_failed action

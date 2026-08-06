@@ -1,6 +1,6 @@
 import {__} from "@wordpress/i18n";
 import {Button, Icon} from "@wordpress/components";
-import {close, error} from "@wordpress/icons";
+import {close, error, check} from "@wordpress/icons";
 import {useRef, useState} from "@wordpress/element";
 import 'cap-widget';
 
@@ -19,7 +19,7 @@ function FormPanel({ isOpen, closePanel }) {
 
 		const formData = new FormData(form);
 
-		setFormState({ ...formState, error: '', isSuccess: false, isPending: true });
+		setFormState({ error: '', isSuccess: false, isPending: true });
 		capRef.current.reset();
 
 		const endpoint = '/wp-json/contact-slide-in/v1/message';
@@ -32,10 +32,10 @@ function FormPanel({ isOpen, closePanel }) {
 		})
 
 		if (!result?.ok) {
-			setFormState({ ...formState, isPending: false, isSuccess: false, error: 'Failed to send message' });
+			setFormState({ isPending: false, isSuccess: false, error: 'Failed to send message' });
 		} else {
 			formRef.current.reset();
-			setFormState({ ...formState, isPending: false, isSuccess: true });
+			setFormState({ isPending: false, isSuccess: true, error: '' });
 		}
 	}
 
@@ -69,8 +69,8 @@ function FormPanel({ isOpen, closePanel }) {
 						data-cap-api-endpoint="https://cap.hommeldorp.nl/84e2a6d091/"
 					/>
 
-					{ formState.isSuccess && <p className="success-message">{ __('Message sent successfully', 'contact-form') }</p> }
-					{ formState.error && <p className="has-vivid-red-color" style={{ display: 'flex' }}><Icon icon={ error }/> { formState.error }</p> }
+					{ formState.isSuccess && <p className="has-vivid-green-cyan-color success-message"><Icon icon={ check }/>{ __('Message sent successfully', 'contact-form') }</p> }
+					{ formState.error && <p className="has-vivid-red-color error-message"><Icon icon={ error }/> { formState.error }</p> }
 
 					<button className="wp-element-button wp-block-button__link has-medium-font-size"
 					        type="submit"
