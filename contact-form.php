@@ -39,21 +39,25 @@ function contact_form_load_textdomain() {
 }
 add_action( 'init', 'contact_form_load_textdomain' );
 
-wp_register_script(
-	'edit-script',
-	plugins_url( 'src/contact-form/edit.js', __FILE__ ),
-	array( 'wp-i18n' ),
-	'0.0.1'
-);
-
 // these functions ensure translation keys from the view are recognized when generating files and that they are loaded
 // into the UI
-wp_register_script(
-	'view-script',
-	plugins_url( 'build/contact-form/view/index.js', __FILE__ ),
-	array( 'wp-i18n' ),
-	'0.0.1'
-);
+add_action( 'init', 'contact_form_register_i18n_scripts' );
+
+function contact_form_register_i18n_scripts() {
+	wp_register_script(
+		'edit-script',
+		plugins_url( 'src/contact-form/edit.js', __FILE__ ),
+		array( 'wp-i18n' ),
+		'0.0.1'
+	);
+
+	wp_register_script(
+		'view-script',
+		plugins_url( 'build/contact-form/view/index.js', __FILE__ ),
+		array( 'wp-i18n' ),
+		'0.0.1'
+	);
+}
 
 add_action( 'wp_enqueue_scripts', 'contact_form_load_view_textdomain', 100 );
 
@@ -107,18 +111,6 @@ function hommeldorp_contact_form_register_routes() {
 	]);
 }
 
-function get_admin_email_from_db () {
-	global $wpdb;
-
-	$admin_email = $wpdb->get_var( "SELECT option_value FROM wp_options WHERE option_name = 'admin_email'" );
-
-	if ($wpdb->last_error) {
-		throw new Exception( $wpdb->last_error );
-	}
-
-	return $admin_email;
-}
-
 function hommeldorp_contact_form_post_message(WP_REST_Request $request) {
 
 	$data = json_decode(file_get_contents("https://cap.hommeldorp.nl/84e2a6d091/siteverify",
@@ -135,10 +127,10 @@ function hommeldorp_contact_form_post_message(WP_REST_Request $request) {
 		return new WP_Error( 'invalid_captcha', 'Invalid captcha.', array( 'status' => 400 ));
 	}
 
-	try {
-		$recipient = get_admin_email_from_db();
-	} catch (Exception $e) {
-		error_log("Get admin email: ".$e->getMessage());
+	$recipient = get_option( 'admin_email' );
+
+	if ( ! $recipient ) {
+		error_log("Get admin email: the admin_email option is empty.");
 		return new WP_Error( 'email_not_sent', 'Email not sent.', array( 'status' => 500 ));
 	}
 
