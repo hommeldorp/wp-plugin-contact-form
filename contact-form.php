@@ -69,6 +69,45 @@ function contact_form_load_view_textdomain() {
 	);
 }
 
+// routes wp_mail() through SMTP instead of the host's sendmail.
+// With no SMTP_HOST set (e.g. local dev), wp_mail() keeps its default transport.
+
+add_action( 'phpmailer_init', 'contact_form_configure_smtp' );
+
+function contact_form_configure_smtp( PHPMailer\PHPMailer\PHPMailer $mailer ) {
+	$host = getenv( 'SMTP_HOST' );
+
+	if ( ! $host ) {
+		error_log('SMTP_HOST not set');
+		return;
+	}
+
+	$mailer->isSMTP();
+	$mailer->Host = $host;
+	$mailer->Port = (int) ( getenv( 'SMTP_PORT' ) ?: 587 );
+
+	// "tls" for STARTTLS, "ssl" for implicit TLS. Local mail catchers speak plain SMTP, so an empty
+	// SMTP_SECURE also switches off the automatic STARTTLS upgrade
+	$secure = getenv( 'SMTP_SECURE' );
+
+	if ( $secure ) {
+		$mailer->SMTPSecure = $secure;
+	} else {
+		$mailer->SMTPSecure  = '';
+		$mailer->SMTPAutoTLS = false;
+	}
+
+	$user = getenv( 'SMTP_USER' );
+	$pass = getenv( 'SMTP_PASS' );
+
+	// mail catchers like Mailpit accept unauthenticated connections
+	if ( $user && $pass ) {
+		$mailer->SMTPAuth = true;
+		$mailer->Username = $user;
+		$mailer->Password = $pass;
+	}
+}
+
 // Contact Form REST API
 
 add_action( 'rest_api_init', 'hommeldorp_contact_form_register_routes' );
@@ -112,13 +151,18 @@ function hommeldorp_contact_form_register_routes() {
 }
 
 function hommeldorp_contact_form_post_message(WP_REST_Request $request) {
+	$cap_secret_key = getenv("CAP_SECRET_KEY");
+	if (!$cap_secret_key) {
+		error_log("Cap secret key not set");
+		return new WP_Error('email_not_sent', 'Email not sent');
+	}
 
 	$data = json_decode(file_get_contents("https://cap.hommeldorp.nl/84e2a6d091/siteverify",
 		false, stream_context_create([
 			"http" => [
 				"method" => "POST",
 				"header" => "Content-Type: application/json",
-				"content" => json_encode(["secret"=>getenv("CAP_SECRET_KEY"),"response"=>$request->get_param('cap-token')])
+				"content" => json_encode(["secret"=>$cap_secret_key,"response"=>$request->get_param('cap-token')])
 			]
 		])
 	), true);
@@ -135,7 +179,7 @@ function hommeldorp_contact_form_post_message(WP_REST_Request $request) {
 	}
 
 	// at least for transip, it seems this *must* be a hommeldorp.nl address
-	$from = "From: " . $request->get_param('name') . "<" . $recipient . ">";
+	$from = "From: " . $request->get_param('name') . " via contact form<" . $recipient . ">";
 
 	// if the sender didn't provide an email, use the admin email
 	$replyTo = $request->get_param('email') != ''
@@ -144,6 +188,7 @@ function hommeldorp_contact_form_post_message(WP_REST_Request $request) {
 
 	$headers = array( 'Content-Type: text/plain; charset=UTF-8', $from, $replyTo);
 
+	error_log("Attempt send email " . $request->get_param('message'));
 	// errors form this function trigger the wp_mail_failed action
 	$result = wp_mail( $recipient, 'Contact Form Submission', $request->get_param('message'), $headers );
 
