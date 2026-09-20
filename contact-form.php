@@ -151,8 +151,7 @@ function hommeldorp_contact_form_register_routes() {
 }
 
 function hommeldorp_contact_form_post_message(WP_REST_Request $request) {
-	$cap_secret_key = getenv("CAP_SECRET_KEY");
-	if (!$cap_secret_key) {
+	if (!getenv("CAP_SECRET_KEY")) {
 		error_log("Cap secret key not set");
 		return new WP_Error('email_not_sent', 'Email not sent');
 	}
@@ -162,7 +161,7 @@ function hommeldorp_contact_form_post_message(WP_REST_Request $request) {
 			"http" => [
 				"method" => "POST",
 				"header" => "Content-Type: application/json",
-				"content" => json_encode(["secret"=>$cap_secret_key,"response"=>$request->get_param('cap-token')])
+				"content" => json_encode(["secret"=>getenv("CAP_SECRET_KEY"),"response"=>$request->get_param('cap-token')])
 			]
 		])
 	), true);
